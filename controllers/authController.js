@@ -6,7 +6,7 @@ const userDB = {
 };
 const bcrypt = require("bcrypt");
 
-const handleLogin = async () => {
+const handleLogin = async (req,res) => {
   const { pwd, user } = req.body;
   if (!pwd || !user)
     return res
