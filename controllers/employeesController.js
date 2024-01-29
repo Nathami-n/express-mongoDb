@@ -1,6 +1,5 @@
 const data = {
     employees: require('../model/employees.json'),
-    setEmployees: function (data) { this.employees = data }
 }
 
 const getAllEmployees = (req, res) => {
@@ -8,18 +7,17 @@ const getAllEmployees = (req, res) => {
 }
 
 const createNewEmployee = (req, res) => {
-    const newEmployee = {
-        id: data.employees?.length ? data.employees[data.employees.length - 1].id + 1 : 1,
+    const newBie = {
+        id: data.employees?.length ? data.employees[data.employees.length-1].id + 1: 1,
         firstname: req.body.firstname,
-        lastname: req.body.lastname
+        lastname: req.body.lastname,
     }
 
-    if (!newEmployee.firstname || !newEmployee.lastname) {
-        return res.status(400).json({ 'message': 'First and last names are required.' });
-    }
-
-    data.setEmployees([...data.employees, newEmployee]);
-    res.status(201).json(data.employees);
+    // if(!newBie.firstname || !newBie.lastname) {
+    //    return res.status(400).json({success: false, message:'Provide the first and last names'})
+    // }
+    data.employees = [...data.employees, newBie]
+    res.status(200).json({success:true, data: data.employees})
 }
 
 const updateEmployee = (req, res) => {
