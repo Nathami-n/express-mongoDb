@@ -7,8 +7,8 @@ router
   .get(employeesController.getAllEmployees)
   .post(employeesController.createNewEmployee)
   .put(employeesController.updateEmployee)
-  .delete(employeesController.deleteEmployee);
+ 
 
-router.route("/:id").get(employeesController.getEmployee);
+router.route("/:id").get(employeesController.getEmployee).delete(employeesController.deleteEmployee);;
 
 module.exports = router;

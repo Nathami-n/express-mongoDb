@@ -27,42 +27,48 @@ const createNewEmployee = (req, res) => {
 const updateEmployee = (req, res) => {
   const employee = data.employees.find((emp) => emp.id === req.body.id);
   if (!employee) {
-    return res
-      .status(404)
-      .json({
-        success: false,
-        message: "Employee not found, Check your request body",
-      });
+    return res.status(404).json({
+      success: false,
+      message: "Employee not found, Check your request body",
+    });
   }
   console.log(req.body);
-  const updatedEmployee = {...employee, firstname:req.body.firstname, lastname:req.body.lastname};
-  const filteredEmployees = data.employees.filter(emp => emp.id !== req.body.id);
-  const sortedEmployees = [...filteredEmployees, updatedEmployee].sort((a, b)=> a.id - b.id);
-  data.employees = [...sortedEmployees]
+  const updatedEmployee = {
+    ...employee,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+  };
+  const filteredEmployees = data.employees.filter(
+    (emp) => emp.id !== req.body.id
+  );
+  const sortedEmployees = [...filteredEmployees, updatedEmployee].sort(
+    (a, b) => a.id - b.id
+  );
+  data.employees = [...sortedEmployees];
 
   res.status(200).json({
-    success:true, 
+    success: true,
     data: data.employees,
-  })
-  
-
-
+  });
 };
 
 const deleteEmployee = (req, res) => {
   const employee = data.employees.find(
-    (emp) => emp.id === parseInt(req.body.id)
+    (emp) => emp.id.toString() === req.params.id
   );
-  if (!employee) {
-    return res
-      .status(400)
-      .json({ message: `Employee ID ${req.body.id} not found` });
+  console.log(req.params.id);
+  if (!employee){ 
+  return res
+  .status(404)
+      .json({ success: false, message: "Employee not found" });
   }
-  const filteredArray = data.employees.filter(
-    (emp) => emp.id !== parseInt(req.body.id)
-  );
-  data.setEmployees([...filteredArray]);
-  res.json(data.employees);
+  const newEmployeeData = data.employees.filter(emp=> emp.id.toString() !== req.params.id);
+  data.employees = newEmployeeData
+  res.json({
+    success: true,
+    message: employee,
+  })
+
 };
 
 const getEmployee = (req, res) => {
