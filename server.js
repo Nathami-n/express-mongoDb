@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const verifyJWT = require('./middleware/verifyJWT.Js')
 const path = require('path');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
@@ -24,9 +25,10 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
 app.use('/', require('./routes/root'));
-app.use('/employees', require('./routes/api/employees'));
-app.use('/auth', require('./routes/auth'))
 app.use('/register', require('./routes/register'))
+app.use('/auth', require('./routes/auth'))
+app.use(verifyJWT);
+app.use('/employees', require('./routes/api/employees'));
 
 app.all('*', (req, res) => {
     res.status(404);
