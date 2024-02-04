@@ -17,7 +17,7 @@ const handleNewUser = async (req, res) => {
       .json({ success: false, message: "Username and password required" });
 
   const duplicate = userDB.users.find((usr) => usr.username === user);
-  if (duplicate) return res.sendStatus(409);
+  if (duplicate) return res.sendStatus(409)//duplicate user;
   try {
     const hashedPassword = await bcrypt.hash(pwd, 10);
     const newUser = { "username": user, "password": hashedPassword };
@@ -28,7 +28,7 @@ const handleNewUser = async (req, res) => {
       .status(201)
       .json({ success: true, message: "user created successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message }) // server error;j
   }
 };
 
